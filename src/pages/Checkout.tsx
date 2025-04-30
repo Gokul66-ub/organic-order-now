@@ -8,6 +8,7 @@ import { saveOrder } from '../utils/localStorage';
 import { v4 as uuidv4 } from 'uuid';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
+import { Order } from '../types';
 
 const Checkout = () => {
   const { items, getTotalPrice, clearCart } = useCart();
@@ -71,9 +72,9 @@ const Checkout = () => {
       setFormData({
         ...formData,
         [parent]: {
-          ...formData[parent as keyof typeof formData],
+          ...(formData[parent as keyof typeof formData] as any),
           [child]: value,
-        } as any,
+        },
       });
     } else {
       setFormData({
@@ -94,7 +95,7 @@ const Checkout = () => {
     const total = subtotal + tax;
     
     // Create order object
-    const order = {
+    const order: Order = {
       id: uuidv4(),
       userId: currentUser.id,
       items: items,

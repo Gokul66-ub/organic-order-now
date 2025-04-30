@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import Layout from '../components/layout/Layout';
 import { useAuth } from '../contexts/AuthContext';
 import { Button } from '@/components/ui/button';
+import { User as UserIcon } from 'lucide-react';
 import { User } from '../types';
 import { toast } from 'sonner';
 
@@ -45,7 +46,7 @@ const Profile = () => {
         <div className="container mx-auto px-4 py-16 text-center">
           <div className="bg-white p-8 rounded-lg shadow-sm max-w-md mx-auto">
             <div className="w-20 h-20 mx-auto bg-gray-200 rounded-full flex items-center justify-center mb-4">
-              <User size={40} className="text-gray-400" />
+              <UserIcon size={40} className="text-gray-400" />
             </div>
             <h2 className="text-2xl font-bold mb-4">Account Access Required</h2>
             <p className="text-gray-600 mb-6">Please log in to view and manage your profile.</p>
@@ -72,7 +73,7 @@ const Profile = () => {
       setFormData({
         ...formData,
         [parent]: {
-          ...formData[parent as keyof typeof formData],
+          ...(formData[parent as keyof typeof formData] as any),
           [child]: value,
         },
       });
@@ -93,7 +94,7 @@ const Profile = () => {
     updateProfile({
       ...currentUser,
       ...formData,
-    });
+    } as User);
     
     setIsEditing(false);
   };
