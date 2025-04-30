@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Layout from '../components/layout/Layout';
@@ -112,11 +111,11 @@ const Profile = () => {
               <div className="p-6 border-b border-gray-200">
                 <div className="flex items-center">
                   <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center">
-                    <User size={24} className="text-primary" />
+                    <UserIcon size={24} className="text-primary" />
                   </div>
                   <div className="ml-4">
-                    <h3 className="font-medium">{currentUser.name}</h3>
-                    <p className="text-sm text-gray-500">{currentUser.email}</p>
+                    <h3 className="font-medium">{currentUser?.name}</h3>
+                    <p className="text-sm text-gray-500">{currentUser?.email}</p>
                   </div>
                 </div>
               </div>
