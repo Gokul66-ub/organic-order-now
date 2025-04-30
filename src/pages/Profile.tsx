@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Layout from '../components/layout/Layout';
@@ -97,6 +96,7 @@ const Profile = () => {
     } as User);
     
     setIsEditing(false);
+    toast.success("Profile updated successfully!");
   };
   
   return (
