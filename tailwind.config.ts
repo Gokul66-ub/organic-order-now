@@ -26,30 +26,30 @@ export default {
 				background: 'hsl(var(--background))',
 				foreground: 'hsl(var(--foreground))',
 				primary: {
-					DEFAULT: '#4CAF50',
+					DEFAULT: '#1E40AF',
 					foreground: '#FFFFFF',
-					100: '#E8F5E9',
-					200: '#C8E6C9',
-					300: '#A5D6A7',
-					400: '#81C784',
-					500: '#4CAF50',
-					600: '#43A047',
-					700: '#388E3C',
-					800: '#2E7D32',
-					900: '#1B5E20',
+					100: '#EFF6FF',
+					200: '#DBEAFE',
+					300: '#BFDBFE',
+					400: '#93C5FD',
+					500: '#3B82F6',
+					600: '#2563EB',
+					700: '#1D4ED8',
+					800: '#1E40AF',
+					900: '#1E3A8A',
 				},
 				secondary: {
-					DEFAULT: '#FF9800',
+					DEFAULT: '#F59E0B',
 					foreground: '#FFFFFF',
-					100: '#FFF3E0',
-					200: '#FFE0B2',
-					300: '#FFCC80',
-					400: '#FFB74D',
-					500: '#FF9800',
-					600: '#FB8C00',
-					700: '#F57C00',
-					800: '#EF6C00',
-					900: '#E65100',
+					100: '#FFFBEB',
+					200: '#FEF3C7',
+					300: '#FDE68A',
+					400: '#FCD34D',
+					500: '#F59E0B',
+					600: '#D97706',
+					700: '#B45309',
+					800: '#92400E',
+					900: '#78350F',
 				},
 				destructive: {
 					DEFAULT: 'hsl(var(--destructive))',
@@ -103,11 +103,25 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				fadeIn: {
+					from: {
+						opacity: '0',
+						transform: 'translateY(10px)'
+					},
+					to: {
+						opacity: '1',
+						transform: 'translateY(0)'
+					}
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'fade-in': 'fadeIn 0.5s ease-out forwards'
+			},
+			fontFamily: {
+				sans: ['Inter', 'sans-serif']
 			}
 		}
 	},
