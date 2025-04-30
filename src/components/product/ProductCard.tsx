@@ -34,7 +34,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     : null;
   
   return (
-    <div className="bg-white rounded-xl shadow-sm overflow-hidden product-card">
+    <div className="bg-white rounded-xl overflow-hidden product-card shadow-md border border-indigo-50">
       {/* Discount Badge */}
       {product.discountPercentage && (
         <div className="absolute top-3 left-3 bg-secondary text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-sm">
@@ -50,7 +50,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       >
         <Heart 
           size={18} 
-          className={isWishlisted ? "fill-red-500 text-red-500" : "text-gray-500"}
+          className={isWishlisted ? "fill-pink-500 text-pink-500" : "text-gray-500"}
         />
       </button>
 
@@ -111,7 +111,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         {/* Add to Cart Button */}
         <Button 
           onClick={handleAddToCart}
-          className="mt-4 w-full flex items-center justify-center gap-2 py-5"
+          className="mt-4 w-full flex items-center justify-center gap-2 py-5 bg-gradient-to-r from-primary to-primary-700"
         >
           <ShoppingCart size={16} />
           Add to Cart

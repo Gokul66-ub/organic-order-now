@@ -3,157 +3,187 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { useCart } from '../../contexts/CartContext';
-import { ShoppingCart, Heart, User, Search, Package } from 'lucide-react';
+import { 
+  ShoppingCart, 
+  Heart, 
+  User, 
+  Search, 
+  Package, 
+  Home, 
+  PackageOpen, 
+  Info, 
+  X 
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
-const Navbar: React.FC = () => {
+interface NavbarProps {
+  isOpen: boolean;
+  toggleNavbar: () => void;
+}
+
+const Navbar: React.FC<NavbarProps> = ({ isOpen, toggleNavbar }) => {
   const { isAuthenticated, logout } = useAuth();
   const { getTotalItems } = useCart();
   const location = useLocation();
   
   return (
-    <nav className="bg-white shadow-md sticky top-0 z-50">
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between py-4">
-          {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2">
-            <span className="text-primary text-2xl font-bold">🥕 Fresh Mart</span>
+    <nav className={`vertical-navbar ${isOpen ? 'open' : ''}`}>
+      <div className="flex flex-col h-full">
+        {/* Mobile Close Button */}
+        <div className="md:hidden flex justify-end p-4">
+          <Button variant="ghost" size="icon" onClick={toggleNavbar} className="text-white hover:bg-white/10">
+            <X size={24} />
+          </Button>
+        </div>
+        
+        {/* Logo */}
+        <div className="p-6">
+          <Link to="/" className="flex items-center space-x-2" onClick={() => toggleNavbar()}>
+            <span className="text-white text-2xl font-bold">🥕 Fresh Mart</span>
           </Link>
-          
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            <Link 
-              to="/" 
-              className={`hover:text-primary ${location.pathname === '/' ? 'text-primary font-medium' : 'text-gray-600'}`}
-            >
-              Home
-            </Link>
-            <Link 
-              to="/products" 
-              className={`hover:text-primary ${location.pathname === '/products' ? 'text-primary font-medium' : 'text-gray-600'}`}
-            >
-              Products
-            </Link>
-            <Link 
-              to="/about" 
-              className={`hover:text-primary ${location.pathname === '/about' ? 'text-primary font-medium' : 'text-gray-600'}`}
-            >
-              About
-            </Link>
-          </div>
-          
-          {/* Search bar */}
-          <div className="hidden md:flex relative flex-grow max-w-md mx-6">
+        </div>
+        
+        {/* Search box */}
+        <div className="px-6 py-3">
+          <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Search size={18} className="text-gray-400" />
+              <Search size={18} className="text-indigo-300" />
             </div>
             <input 
               type="search" 
               placeholder="Search products..." 
-              className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-lg focus:ring-primary focus:border-primary"
+              className="pl-10 pr-4 py-2 w-full border border-indigo-400/50 bg-indigo-50/10 rounded-lg text-white placeholder-indigo-200 focus:outline-none focus:ring-2 focus:ring-white/30"
             />
           </div>
-          
-          {/* Action buttons */}
-          <div className="flex items-center space-x-4">
-            {isAuthenticated ? (
+        </div>
+        
+        {/* Navigation Links */}
+        <div className="px-6 py-8 flex-grow">
+          <div className="flex flex-col space-y-4">
+            <Link 
+              to="/" 
+              className={`flex items-center px-4 py-3 rounded-lg transition-colors ${location.pathname === '/' 
+                ? 'bg-white text-primary font-medium' 
+                : 'text-white hover:bg-white/10'}`}
+              onClick={() => toggleNavbar()}
+            >
+              <Home size={20} className="mr-3" />
+              Home
+            </Link>
+            
+            <Link 
+              to="/products" 
+              className={`flex items-center px-4 py-3 rounded-lg transition-colors ${location.pathname === '/products' 
+                ? 'bg-white text-primary font-medium' 
+                : 'text-white hover:bg-white/10'}`}
+              onClick={() => toggleNavbar()}
+            >
+              <PackageOpen size={20} className="mr-3" />
+              Products
+            </Link>
+            
+            <Link 
+              to="/about" 
+              className={`flex items-center px-4 py-3 rounded-lg transition-colors ${location.pathname === '/about' 
+                ? 'bg-white text-primary font-medium' 
+                : 'text-white hover:bg-white/10'}`}
+              onClick={() => toggleNavbar()}
+            >
+              <Info size={20} className="mr-3" />
+              About
+            </Link>
+            
+            {isAuthenticated && (
               <>
-                <Link to="/wishlist" className="relative text-gray-600 hover:text-primary">
-                  <Heart size={20} />
+                <Link 
+                  to="/orders" 
+                  className={`flex items-center px-4 py-3 rounded-lg transition-colors ${location.pathname === '/orders' 
+                    ? 'bg-white text-primary font-medium' 
+                    : 'text-white hover:bg-white/10'}`}
+                  onClick={() => toggleNavbar()}
+                >
+                  <Package size={20} className="mr-3" />
+                  Orders
                 </Link>
-                <Link to="/cart" className="relative text-gray-600 hover:text-primary">
-                  <ShoppingCart size={20} />
-                  {getTotalItems() > 0 && (
-                    <span className="absolute -top-2 -right-2 bg-secondary text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
-                      {getTotalItems()}
-                    </span>
-                  )}
-                </Link>
-                <Link to="/orders" className="relative text-gray-600 hover:text-primary hidden md:block">
-                  <Package size={20} />
-                </Link>
-                <div className="relative group">
-                  <button className="text-gray-600 hover:text-primary">
-                    <User size={20} />
-                  </button>
-                  <div className="absolute right-0 w-48 py-2 bg-white rounded-md shadow-xl z-20 hidden group-hover:block">
-                    <Link 
-                      to="/profile" 
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                    >
-                      Profile
-                    </Link>
-                    <Link 
-                      to="/orders" 
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 md:hidden"
-                    >
-                      My Orders
-                    </Link>
-                    <button 
-                      onClick={logout} 
-                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                    >
-                      Log out
-                    </button>
-                  </div>
-                </div>
-              </>
-            ) : (
-              <>
-                <Link to="/login">
-                  <Button variant="outline" className="hidden md:inline-flex">
-                    Log in
-                  </Button>
-                </Link>
-                <Link to="/signup">
-                  <Button className="hidden md:inline-flex">
-                    Sign up
-                  </Button>
-                </Link>
-                <Link to="/login" className="md:hidden text-gray-600 hover:text-primary">
-                  <User size={20} />
+                
+                <Link 
+                  to="/wishlist" 
+                  className={`flex items-center px-4 py-3 rounded-lg transition-colors ${location.pathname === '/wishlist' 
+                    ? 'bg-white text-primary font-medium' 
+                    : 'text-white hover:bg-white/10'}`}
+                  onClick={() => toggleNavbar()}
+                >
+                  <Heart size={20} className="mr-3" />
+                  Wishlist
                 </Link>
               </>
             )}
           </div>
         </div>
         
-        {/* Mobile search - visible only on mobile */}
-        <div className="pb-4 md:hidden">
-          <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Search size={18} className="text-gray-400" />
+        {/* User Actions */}
+        <div className="mt-auto p-6 border-t border-indigo-500/50">
+          {isAuthenticated ? (
+            <div className="flex flex-col space-y-3">
+              <Link 
+                to="/cart" 
+                className="flex items-center justify-between px-4 py-3 bg-white/10 hover:bg-white/20 rounded-lg text-white"
+                onClick={() => toggleNavbar()}
+              >
+                <div className="flex items-center">
+                  <ShoppingCart size={20} className="mr-3" />
+                  Cart
+                </div>
+                {getTotalItems() > 0 && (
+                  <span className="bg-white text-primary font-bold text-xs rounded-full h-6 w-6 flex items-center justify-center">
+                    {getTotalItems()}
+                  </span>
+                )}
+              </Link>
+              
+              <Link 
+                to="/profile" 
+                className="flex items-center px-4 py-3 bg-white/10 hover:bg-white/20 rounded-lg text-white"
+                onClick={() => toggleNavbar()}
+              >
+                <User size={20} className="mr-3" />
+                Profile
+              </Link>
+              
+              <Button 
+                variant="outline" 
+                className="border-white text-white hover:bg-white hover:text-primary w-full mt-2"
+                onClick={() => {
+                  logout();
+                  toggleNavbar();
+                }}
+              >
+                Log out
+              </Button>
             </div>
-            <input 
-              type="search" 
-              placeholder="Search products..." 
-              className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-lg focus:ring-primary focus:border-primary"
-            />
-          </div>
-        </div>
-        
-        {/* Mobile Navigation */}
-        <div className="md:hidden border-t border-gray-200">
-          <div className="flex justify-between py-2">
-            <Link 
-              to="/" 
-              className={`flex-1 text-center py-2 ${location.pathname === '/' ? 'text-primary font-medium' : 'text-gray-600'}`}
-            >
-              Home
-            </Link>
-            <Link 
-              to="/products" 
-              className={`flex-1 text-center py-2 ${location.pathname === '/products' ? 'text-primary font-medium' : 'text-gray-600'}`}
-            >
-              Products
-            </Link>
-            <Link 
-              to="/about" 
-              className={`flex-1 text-center py-2 ${location.pathname === '/about' ? 'text-primary font-medium' : 'text-gray-600'}`}
-            >
-              About
-            </Link>
-          </div>
+          ) : (
+            <div className="flex flex-col space-y-3">
+              <Link 
+                to="/login" 
+                className="w-full" 
+                onClick={() => toggleNavbar()}
+              >
+                <Button variant="outline" className="w-full border-white text-white hover:bg-white hover:text-primary">
+                  Log in
+                </Button>
+              </Link>
+              
+              <Link 
+                to="/signup" 
+                className="w-full"
+                onClick={() => toggleNavbar()}
+              >
+                <Button className="w-full bg-white text-primary hover:bg-indigo-100">
+                  Sign up
+                </Button>
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </nav>
